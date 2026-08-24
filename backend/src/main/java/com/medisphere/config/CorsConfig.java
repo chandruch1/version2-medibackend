@@ -19,7 +19,8 @@ public class CorsConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "https://medi-sphere-info.vercel.app",
-                "https://medibackup.vercel.app"
+                "https://medibackup.vercel.app",
+                "https://version2-medibackend.vercel.app"
         ));
 
         configuration.setAllowedMethods(List.of(

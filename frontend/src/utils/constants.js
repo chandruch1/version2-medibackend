@@ -1,5 +1,5 @@
 // API Base URL
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://medibackup.onrender.com";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://version2-medibackend.onrender.com";
 
 // LocalStorage Keys
 export const TOKEN_KEY = "token";

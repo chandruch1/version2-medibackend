@@ -119,6 +119,9 @@ h1, h2, h3, h4, h5, h6 {
 .ms-sidebar-brand {
   padding: 24px 20px 20px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .ms-sidebar-brand-logo {
@@ -879,16 +882,266 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
+/* ── Hamburger Button (TopNavbar) ─────────────────────────────────────────── */
+.ms-hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--gray-700);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.ms-hamburger-btn:hover {
+  background: var(--gray-100);
+  color: var(--primary);
+}
+
+/* ── Sidebar Mobile Overlay ───────────────────────────────────────────────── */
+.ms-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+/* ── Sidebar Close Button (inside sidebar, mobile only) ──────────────────── */
+.ms-sidebar-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  margin-left: auto;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.ms-sidebar-close-btn:hover {
+  color: #fff;
+}
+
+/* ── Landing Page Styles ──────────────────────────────────────────────────── */
+.landing-topbar {
+  background: #0d6efd;
+  color: #fff;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.landing-navbar {
+  background: #fff;
+  padding: 15px 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.landing-brand-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: 0.5px;
+}
+
+.landing-nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.landing-nav-cta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.landing-hamburger {
+  display: none;
+  background: none;
+  border: 1.5px solid #dee2e6;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #495057;
+  transition: all 0.2s;
+}
+
+.landing-hamburger:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.landing-mobile-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  border-top: 1px solid #e9ecef;
+  background: #fff;
+}
+
+.landing-mobile-link {
+  display: block;
+  padding: 12px 24px;
+  color: #222;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.landing-mobile-link:hover {
+  background: #f8f9fa;
+  color: #0d6efd;
+}
+
+.landing-mobile-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 24px 4px;
+}
+
+.landing-login-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.landing-login-btn:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.landing-appt-btn {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #f39c12, #d68910);
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(243,156,18,0.4);
+  border: none;
+  transition: transform 0.2s;
+}
+
+.landing-appt-btn:hover {
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.landing-hero {
+  position: relative;
+  height: 100vh;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.landing-hero-title {
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+
+.landing-section-title {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.landing-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── TopNavbar username (hide on very small screens) ─────────────────────── */
+.ms-topnav-username {
+  display: block;
+}
+
+/* ── Responsive Breakpoints ───────────────────────────────────────────────── */
+
+/* ── Tablet (≤ 992px) ─────────────────────────────────────────────────────── */
+@media (max-width: 992px) {
+  /* Sidebar: slide-off by default, slide-in when open */
   .ms-sidebar {
     transform: translateX(-100%);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+  }
+
+  .ms-sidebar.ms-sidebar-open {
+    transform: translateX(0);
+  }
+
+  .ms-sidebar-overlay {
+    display: block;
+  }
+
+  .ms-sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .ms-main-content {
     margin-left: 0;
   }
 
+  .ms-hamburger-btn {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Landing: hide desktop nav */
+  .landing-nav-links {
+    display: none;
+  }
+
+  .landing-nav-cta {
+    display: none;
+  }
+
+  .landing-hamburger {
+    display: block;
+  }
+
+  .landing-section-title {
+    font-size: 28px;
+  }
+}
+
+/* ── Mobile (≤ 768px) ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
   .ms-login-left {
     display: none;
   }
@@ -902,7 +1155,88 @@ h1, h2, h3, h4, h5, h6 {
     padding: 16px;
   }
 
-  .ms-landing-nav {
-    padding: 12px 24px;
+  .ms-topnav {
+    padding: 0 16px;
+  }
+
+  .ms-topnav-username {
+    display: none;
+  }
+
+  .ms-role-badge {
+    display: none;
+  }
+
+  .ms-stat-value {
+    font-size: 26px;
+  }
+
+  .ms-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ms-modal {
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    margin: 0 8px;
+  }
+
+  .ms-table-card {
+    overflow-x: auto;
+  }
+
+  /* Landing hero */
+  .landing-hero {
+    height: 60vh;
+    min-height: 320px;
+  }
+
+  .landing-hero-title {
+    font-size: 28px;
+  }
+
+  .landing-section-title {
+    font-size: 24px;
+  }
+
+  .landing-topbar {
+    font-size: 12px;
+    padding: 6px 0;
+  }
+
+  .landing-footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+}
+
+/* ── Small Mobile (≤ 480px) ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .ms-topnav {
+    height: 56px;
+  }
+
+  .landing-brand-name {
+    font-size: 18px;
+  }
+
+  .landing-hero-title {
+    font-size: 22px;
+  }
+
+  .landing-section-title {
+    font-size: 20px;
+  }
+
+  .ms-stat-card {
+    padding: 16px;
+  }
+
+  .ms-btn {
+    font-size: 13px;
+    padding: 7px 14px;
   }
 }

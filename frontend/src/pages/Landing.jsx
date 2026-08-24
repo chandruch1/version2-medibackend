@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
     FaHospital, FaUserMd, FaCalendarCheck, FaPills, FaHeartbeat,
     FaPhone, FaEnvelope, FaMapMarkerAlt, FaStar, FaArrowRight,
-    FaShieldAlt, FaClock, FaAward, FaUsers
+    FaShieldAlt, FaClock, FaAward, FaUsers, FaBars, FaTimes
 } from "react-icons/fa";
 
 const SERVICES = [
@@ -28,11 +28,21 @@ const DOCTORS = [
 
 function Landing() {
     const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 60);
         window.addEventListener("scroll", onScroll);
         return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    // Close mobile menu on resize to desktop
+    useEffect(() => {
+        const onResize = () => {
+            if (window.innerWidth >= 992) setMobileMenuOpen(false);
+        };
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
     }, []);
 
     const avatarColors = ["#0d6efd", "#20c997", "#6f42c1", "#fd7e14", "#dc3545", "#198754"];
@@ -52,12 +62,14 @@ function Landing() {
         return () => clearInterval(timer);
     }, []);
 
+    const navItems = ["HOME", "ABOUT US", "SERVICES", "SPECIALITIES", "CONTACT"];
+
     return (
         <div style={{ fontFamily: "Inter, sans-serif" }}>
 
             {/* ── Top Bar ─────────────────────────────────────────────────── */}
-            <div style={{ background: "#0d6efd", color: "#fff", padding: "8px 0", fontSize: 13, fontWeight: 600 }}>
-                <div className="container d-flex justify-content-end align-items-center gap-4">
+            <div className="landing-topbar">
+                <div className="container d-flex justify-content-between align-items-center">
                     <span><FaPhone style={{marginRight:6}}/> +91 452 711 3333</span>
                     <div style={{ display: "flex", gap: 16 }}>
                         <a href="#" style={{ color: "#fff", textDecoration: "none" }}>Fb</a>
@@ -68,17 +80,12 @@ function Landing() {
             </div>
 
             {/* ── Main Navbar ─────────────────────────────────────────────── */}
-            <nav style={{ 
-                background: "#fff", 
-                padding: "15px 0",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-                position: "sticky", top: 0, zIndex: 1000 
-            }}>
+            <nav className="landing-navbar">
                 <div className="container d-flex justify-content-between align-items-center">
                     {/* Logo */}
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                         <div style={{
-                            width: 48, height: 48, 
+                            width: 48, height: 48,
                             background: "#0d6efd",
                             display: "flex", alignItems: "center", justifyContent: "center",
                             color: "#fff", fontSize: 24,
@@ -86,14 +93,14 @@ function Landing() {
                         }}>
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
-                            <span style={{ fontSize: 22, fontWeight: 800, color: "#111", letterSpacing: 0.5 }}>MEDICARE</span>
+                            <span className="landing-brand-name">MEDICARE</span>
                             <span style={{ fontSize: 12, fontWeight: 600, color: "#6c757d", letterSpacing: 1 }}>HEALTH CENTER</span>
                         </div>
                     </div>
 
-                    {/* Links */}
-                    <div className="d-none d-lg-flex" style={{ gap: 32, alignItems: "center" }}>
-                        {["HOME", "ABOUT US", "SERVICES", "SPECIALITIES", "CONTACT"].map(item => (
+                    {/* Desktop Links */}
+                    <div className="landing-nav-links">
+                        {navItems.map(item => (
                             <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`}
                                 style={{ color: "#222", textDecoration: "none",
                                     fontSize: 14, fontWeight: 700, transition: "color 0.2s" }}
@@ -105,37 +112,53 @@ function Landing() {
                         ))}
                     </div>
 
-                    {/* Appointment and Login Tabs */}
-                    <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                        <Link to="/login" style={{
-                            padding: "8px 20px", borderRadius: 6, fontSize: 14, fontWeight: 700,
-                            color: "#0d6efd", border: "2px solid #0d6efd",
-                            textDecoration: "none", display: "flex", alignItems: "center", gap: 6,
-                            transition: "all 0.2s"
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = "#0d6efd"; e.currentTarget.style.color = "#fff"; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#0d6efd"; }}
-                        >
+                    {/* Desktop CTA Buttons */}
+                    <div className="landing-nav-cta">
+                        <Link to="/login" className="landing-login-btn">
                             LOGIN
                         </Link>
-                        <Link to="/register" style={{
-                            padding: "10px 24px", borderRadius: 6, fontSize: 14, fontWeight: 700,
-                            background: "linear-gradient(135deg, #f39c12, #d68910)", color: "#fff",
-                            textDecoration: "none", display: "flex", alignItems: "center", gap: 8,
-                            boxShadow: "0 4px 12px rgba(243, 156, 18, 0.4)", border: "none",
-                            transition: "transform 0.2s"
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
-                        onMouseLeave={e => e.currentTarget.style.transform = "none"}
-                        >
+                        <Link to="/register" className="landing-appt-btn">
                             <FaCalendarCheck /> APPOINTMENT
                         </Link>
                     </div>
+
+                    {/* Mobile Hamburger */}
+                    <button
+                        className="landing-hamburger"
+                        onClick={() => setMobileMenuOpen(prev => !prev)}
+                        aria-label="Toggle navigation"
+                    >
+                        {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+                    </button>
                 </div>
+
+                {/* Mobile Menu Dropdown */}
+                {mobileMenuOpen && (
+                    <div className="landing-mobile-menu">
+                        {navItems.map(item => (
+                            <a
+                                key={item}
+                                href={`#${item.toLowerCase().replace(" ", "-")}`}
+                                className="landing-mobile-link"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                {item}
+                            </a>
+                        ))}
+                        <div className="landing-mobile-cta">
+                            <Link to="/login" className="landing-login-btn" onClick={() => setMobileMenuOpen(false)}>
+                                LOGIN
+                            </Link>
+                            <Link to="/register" className="landing-appt-btn" onClick={() => setMobileMenuOpen(false)}>
+                                <FaCalendarCheck /> APPOINTMENT
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </nav>
 
             {/* ── Hero Slider ──────────────────────────────────────────────── */}
-            <section id="home" style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
+            <section id="home" className="landing-hero">
                 {sliderData.map((slide, index) => (
                     <div
                         key={index}
@@ -153,10 +176,8 @@ function Landing() {
                         <div
                             style={{
                                 position: "absolute",
-                                top: 0,
-                                left: 0,
-                                width: "100%",
-                                height: "100%",
+                                top: 0, left: 0,
+                                width: "100%", height: "100%",
                                 backgroundImage: `url("${slide.image}")`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
@@ -166,7 +187,7 @@ function Landing() {
                         <div className="container" style={{ position: "relative", zIndex: 2, height: "100%" }}>
                             <div className="row align-items-center justify-content-center" style={{ height: "100%" }}>
                                 <div className="col-12 text-center" style={{ color: "#fff", padding: "0 20px" }}>
-                                    <h1 style={{ fontSize: 58, fontWeight: 900, lineHeight: 1.2, textShadow: "0 4px 15px rgba(0,0,0,0.8)" }}>
+                                    <h1 className="landing-hero-title">
                                         {slide.text}
                                     </h1>
                                 </div>
@@ -181,13 +202,11 @@ function Landing() {
             {/* ── Login Option ────────────────────────────────────────────── */}
             <section id="login-option" style={{ padding: "60px 0", background: "#fff", textAlign: "center", borderBottom: "1px solid #eee" }}>
                 <div className="container">
-                    <h3 style={{ fontSize: 28, fontWeight: 800, marginBottom: 16 }}>Welcome Back to Medicare Health Center</h3>
+                    <h3 className="landing-section-title" style={{ marginBottom: 16 }}>Welcome Back to Medicare Health Center</h3>
                     <p style={{ color: "#6c757d", marginBottom: 24, fontSize: 16 }}>Access your patient dashboard, manage appointments, and view medical records.</p>
-                    <Link to="/login" style={{
-                        display: "inline-flex", alignItems: "center", gap: 8,
-                        padding: "14px 40px", borderRadius: 12, fontSize: 16, fontWeight: 700,
-                        background: "linear-gradient(135deg, #0d6efd, #20c997)", color: "#fff",
-                        textDecoration: "none", boxShadow: "0 8px 24px rgba(13,110,253,0.3)"
+                    <Link to="/login" className="landing-appt-btn" style={{
+                        padding: "14px 40px", borderRadius: 12, fontSize: 16,
+                        boxShadow: "0 8px 24px rgba(13,110,253,0.3)"
                     }}>
                         Login to your Account <FaArrowRight />
                     </Link>
@@ -200,10 +219,11 @@ function Landing() {
                     <div className="row align-items-center g-5">
                         <div className="col-lg-6">
                             <div style={{
-                                width: "100%", maxWidth: 460, height: 360,
+                                width: "100%", maxWidth: 460, height: 300,
                                 background: "linear-gradient(135deg, #0d6efd, #20c997)",
                                 borderRadius: 24, display: "flex", alignItems: "center", justifyContent: "center",
-                                color: "#fff", fontSize: 100, boxShadow: "0 20px 60px rgba(13,110,253,0.3)"
+                                color: "#fff", fontSize: 80, boxShadow: "0 20px 60px rgba(13,110,253,0.3)",
+                                margin: "0 auto"
                             }}>
                                 <FaHospital />
                             </div>
@@ -214,7 +234,7 @@ function Landing() {
                                 fontSize: 12, color: "#0d6efd", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
                                 About Medicare Health Center
                             </div>
-                            <h2 style={{ fontSize: 36, fontWeight: 800, marginBottom: 16, lineHeight: 1.2 }}>
+                            <h2 className="landing-section-title" style={{ marginBottom: 16 }}>
                                 Transforming Healthcare, One Patient at a Time
                             </h2>
                             <p style={{ color: "#6c757d", fontSize: 16, lineHeight: 1.8, marginBottom: 24 }}>
@@ -233,12 +253,7 @@ function Landing() {
                                     </li>
                                 ))}
                             </ul>
-                            <Link to="/register" style={{
-                                display: "inline-flex", alignItems: "center", gap: 8,
-                                padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700,
-                                background: "linear-gradient(135deg, #0d6efd, #0a58ca)", color: "#fff",
-                                textDecoration: "none", marginTop: 8, boxShadow: "0 6px 20px rgba(13,110,253,0.35)"
-                            }}>
+                            <Link to="/register" className="landing-appt-btn" style={{ marginTop: 8 }}>
                                 Join Medicare Health Center <FaArrowRight />
                             </Link>
                         </div>
@@ -255,7 +270,7 @@ function Landing() {
                             fontSize: 12, color: "#0d6efd", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
                             Our Services
                         </div>
-                        <h2 style={{ fontSize: 36, fontWeight: 800, marginBottom: 12 }}>
+                        <h2 className="landing-section-title" style={{ marginBottom: 12 }}>
                             Everything You Need for Better Health
                         </h2>
                         <p style={{ color: "#6c757d", fontSize: 16, maxWidth: 500, margin: "0 auto" }}>
@@ -307,7 +322,7 @@ function Landing() {
                             fontSize: 12, color: "#20c997", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
                             <FaUserMd /> Our Specialists
                         </div>
-                        <h2 style={{ fontSize: 36, fontWeight: 800, marginBottom: 12 }}>Meet Our Expert Doctors</h2>
+                        <h2 className="landing-section-title" style={{ marginBottom: 12 }}>Meet Our Expert Doctors</h2>
                         <p style={{ color: "#6c757d", fontSize: 16, maxWidth: 500, margin: "0 auto" }}>
                             Our team of experienced, certified specialists is dedicated to providing exceptional patient care.
                         </p>
@@ -373,7 +388,7 @@ function Landing() {
                                 fontSize: 12, color: "#0d6efd", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
                                 Contact Us
                             </div>
-                            <h2 style={{ fontSize: 32, fontWeight: 800, marginBottom: 16 }}>Get In Touch</h2>
+                            <h2 className="landing-section-title" style={{ marginBottom: 16 }}>Get In Touch</h2>
                             <p style={{ color: "#6c757d", fontSize: 15, lineHeight: 1.8, marginBottom: 28 }}>
                                 Have questions? Our team is here to help you with appointments, technical support, and anything else you need.
                             </p>
@@ -432,8 +447,7 @@ function Landing() {
             {/* ── Footer ──────────────────────────────────────────────────── */}
             <footer style={{ background: "#0f1623", color: "rgba(255,255,255,0.6)", padding: "32px 0" }}>
                 <div className="container">
-                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",
-                        alignItems: "center", gap: 16 }}>
+                    <div className="landing-footer-inner">
                         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                             <div style={{ width: 32, height: 32, borderRadius: 8,
                                 background: "linear-gradient(135deg, #0d6efd, #20c997)",

@@ -1,7 +1,7 @@
-import { FaBell } from "react-icons/fa";
+import { FaBell, FaBars } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 
-function TopNavbar({ title, subtitle }) {
+function TopNavbar({ title, subtitle, onMenuToggle }) {
     const { username, role } = useAuth();
 
     // Build initials from username
@@ -13,10 +13,19 @@ function TopNavbar({ title, subtitle }) {
 
     return (
         <nav className="ms-topnav">
-            {/* Left: Page Title */}
-            <div className="ms-topnav-left">
-                <h5>{title || "Dashboard"}</h5>
-                {subtitle && <p>{subtitle}</p>}
+            {/* Left: Hamburger (mobile) + Page Title */}
+            <div className="ms-topnav-left" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <button
+                    className="ms-hamburger-btn"
+                    onClick={onMenuToggle}
+                    aria-label="Toggle sidebar menu"
+                >
+                    <FaBars />
+                </button>
+                <div>
+                    <h5>{title || "Dashboard"}</h5>
+                    {subtitle && <p>{subtitle}</p>}
+                </div>
             </div>
 
             {/* Right: User info */}
@@ -33,7 +42,7 @@ function TopNavbar({ title, subtitle }) {
                     {roleName}
                 </span>
 
-                <div style={{ lineHeight: 1.2, textAlign: "right" }}>
+                <div className="ms-topnav-username">
                     <div style={{ fontSize: "14px", fontWeight: 600, color: "var(--gray-900)" }}>
                         {username || "User"}
                     </div>

@@ -48,7 +48,7 @@ public class DoctorService {
                 .email(request.getEmail())
                 .consultationFee(request.getConsultationFee())
                 .availableDays(request.getAvailableDays())
-                .availableTime(request.getAvailableTime())
+                .availableTime(normalizeTime(request.getAvailableTime()))
                 .status(request.getStatus())
                 .dob(request.getDob())
                 .password(
@@ -110,7 +110,7 @@ public class DoctorService {
         doctor.setEmail(request.getEmail());
         doctor.setConsultationFee(request.getConsultationFee());
         doctor.setAvailableDays(request.getAvailableDays());
-        doctor.setAvailableTime(request.getAvailableTime());
+        doctor.setAvailableTime(normalizeTime(request.getAvailableTime()));
         doctor.setStatus(request.getStatus());
         doctor.setDob(request.getDob());
 
@@ -189,6 +189,12 @@ public class DoctorService {
         int year = dob.getYear();
 
         return firstName + year;
+    }
+
+    // Normalize time format: converts "10.00-17.00" → "10:00-17:00"
+    private String normalizeTime(String time) {
+        if (time == null) return null;
+        return time.replace(".", ":");
     }
 
     public DoctorLoginResponse login(DoctorLoginRequest request) {

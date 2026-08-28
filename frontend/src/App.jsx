@@ -44,7 +44,8 @@ import PatientProfile      from "./pages/patient/Profile";
 import ChangePassword      from "./pages/patient/ChangePassword";
 import PatientMedicalHistory from "./pages/patient/MedicalHistory";
 import PatientFeedback     from "./pages/patient/Feedback";
-import PatientNotifications from "./pages/patient/Notifications";
+import PatientNotifications  from "./pages/patient/Notifications";
+import PatientPrescriptions  from "./pages/patient/Prescriptions";
 
 function App() {
     return (
@@ -88,7 +89,8 @@ function App() {
                     <Route path="/patient/change-password" element={<ProtectedRoute role="PATIENT"><ChangePassword /></ProtectedRoute>} />
                     <Route path="/patient/medical-history" element={<ProtectedRoute role="PATIENT"><PatientMedicalHistory /></ProtectedRoute>} />
                     <Route path="/patient/feedback"        element={<ProtectedRoute role="PATIENT"><PatientFeedback /></ProtectedRoute>} />
-                    <Route path="/patient/notifications"   element={<ProtectedRoute role="PATIENT"><PatientNotifications /></ProtectedRoute>} />
+                    <Route path="/patient/notifications"    element={<ProtectedRoute role="PATIENT"><PatientNotifications /></ProtectedRoute>} />
+                    <Route path="/patient/prescriptions"   element={<ProtectedRoute role="PATIENT"><PatientPrescriptions /></ProtectedRoute>} />
 
                     {/* ── Fallback ────────────────────────────────────────── */}
                     <Route path="*" element={<Navigate to="/" replace />} />

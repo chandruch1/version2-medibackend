@@ -35,13 +35,30 @@ public class PrescriptionController {
     }
 
     // ==========================
-    // Admin - Get All Prescriptions
+    // Admin  - Get All Prescriptions
+    // Doctor - Get Own Prescriptions
+    // Patient- Get Own Prescriptions
     // ==========================
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<PrescriptionResponse> getAllPrescriptions() {
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR','PATIENT')")
+    public List<PrescriptionResponse> getAllPrescriptions(
+            Authentication authentication) {
 
-        return prescriptionService.getAllPrescriptions();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        boolean isDoctor = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_DOCTOR"));
+
+        if (isAdmin) {
+            return prescriptionService.getAllPrescriptions();
+        } else if (isDoctor) {
+            return prescriptionService.getDoctorPrescriptions(
+                    authentication.getName());
+        } else {
+            return prescriptionService.getMyPrescriptions(
+                    authentication.getName());
+        }
     }
 
     // ==========================
@@ -64,6 +81,18 @@ public class PrescriptionController {
             Authentication authentication) {
 
         return prescriptionService.getMyPrescriptions(
+                authentication.getName());
+    }
+
+    // ==========================
+    // Doctor - My Prescriptions
+    // ==========================
+    @GetMapping("/doctor")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public List<PrescriptionResponse> getDoctorPrescriptions(
+            Authentication authentication) {
+
+        return prescriptionService.getDoctorPrescriptions(
                 authentication.getName());
     }
 

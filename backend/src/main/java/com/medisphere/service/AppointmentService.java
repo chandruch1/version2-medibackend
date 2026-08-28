@@ -328,7 +328,9 @@ public class AppointmentService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        String[] timeRange = doctor.getAvailableTime().split("-");
+        // Normalize: replace dots with colons to support both "10.00-17.00" and "10:00-17:00"
+        String normalizedTime = doctor.getAvailableTime().replace(".", ":");
+        String[] timeRange = normalizedTime.split("-");
 
         LocalTime startTime = LocalTime.parse(timeRange[0].trim(), formatter);
         LocalTime endTime = LocalTime.parse(timeRange[1].trim(), formatter);

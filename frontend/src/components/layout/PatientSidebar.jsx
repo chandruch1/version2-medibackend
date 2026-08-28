@@ -10,7 +10,8 @@ import {
     FaHeartbeat,
     FaStar,
     FaBell,
-    FaTimes
+    FaTimes,
+    FaFileMedical
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 
@@ -90,6 +91,15 @@ function PatientSidebar({ isOpen, onClose }) {
                         }>
                             <FaHeartbeat />
                             Medical History
+                        </NavLink>
+                    </li>
+
+                    <li className="ms-sidebar-item">
+                        <NavLink to="/patient/prescriptions" onClick={handleLinkClick} className={({ isActive }) =>
+                            `ms-sidebar-link ${isActive ? "active" : ""}`
+                        }>
+                            <FaFileMedical />
+                            Prescriptions
                         </NavLink>
                     </li>
 

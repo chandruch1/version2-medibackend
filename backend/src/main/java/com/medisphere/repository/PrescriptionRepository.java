@@ -18,6 +18,9 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, Long
 
     long countByAppointment_Patient_Email(String email);
 
+    // Doctor: Get all prescriptions written by a specific doctor
+    List<Prescription> findByAppointment_Doctor_Email(String email);
+
     // Patient: Search prescriptions by medicine name
     List<Prescription> findByAppointment_Patient_EmailAndMedicineContainingIgnoreCase(
             String email, String medicine);

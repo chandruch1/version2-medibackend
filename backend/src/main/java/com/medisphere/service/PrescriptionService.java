@@ -120,6 +120,18 @@ public class PrescriptionService {
     }
 
     // ==========================
+    // Doctor Prescriptions
+    // ==========================
+    public List<PrescriptionResponse> getDoctorPrescriptions(String email) {
+
+        return prescriptionRepository
+                .findByAppointment_Doctor_Email(email)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    // ==========================
     // Update Prescription
     // ==========================
     public PrescriptionResponse updatePrescription(
